@@ -1,1 +1,270 @@
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Management & Algorithm System</title>
+<style>
+body{font-family:Poppins,Arial;background:linear-gradient(135deg,#1e1e2e,#34344a);color:white;text-align:center;padding:20px;}
+.page{display:none}.active{display:block}
+.blink{font-size:32px;font-weight:bold;animation:blinkAnim 1.5s infinite;margin-bottom:20px;}
+.blink-small{font-size:24px;animation:blinkAnim 1.5s infinite;margin-bottom:25px;}
+@keyframes blinkAnim{0%{color:#ff4d4d;text-shadow:0 0 10px #ff4d4d}25%{color:#00eaff;text-shadow:0 0 10px #00eaff}50%{color:#00ff62;text-shadow:0 0 10px #00ff62}75%{color:#ffa600;text-shadow:0 0 10px #ffa600}100%{color:#ff4d4d;text-shadow:0 0 10px #ff4d4d}}
+.info-box{border:2px solid white;padding:20px;width:70%;margin:auto;border-radius:12px;background:rgba(255,255,255,0.05);box-shadow:0 0 15px #fff;margin-bottom:15px;}
+.info-item{font-size:18px;margin:5px 0;text-shadow:0 0 8px #fff;}
+button{padding:12px 20px;margin:5px;font-size:16px;border:none;cursor:pointer;border-radius:8px;background:#03a9f4;color:black;font-weight:bold;box-shadow:0 0 15px #03a9f4;}
+button:hover{background:#0288d1;transform:scale(1.05);}
+#studentContainer,#queueContainer{width:95%;margin:20px auto;background:#222;padding:20px;border-radius:12px;box-shadow:0 0 20px #000;}
+table{width:100%;border-collapse:collapse;margin-bottom:15px;}
+th,td{padding:8px;border:1px solid #fff;text-align:center;}
+th{background:#03a9f4;color:black;}
+input{padding:6px;margin:3px;border-radius:6px;border:1px solid #fff;background:#111;color:white;}
+.subj-row{margin-bottom:5px;}
+.subj-row input{width:28%;}
+.history{background:#111;margin-top:5px;padding:5px;border-radius:5px;font-size:14px;text-align:left;}
+.stack-info{margin:10px 0;font-size:18px;}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:20px auto;max-width:900px;}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div id="page1" class="page active">
+<div class="blink">WELCOME TO</div>
+<div class="blink">THE UNIVERSITY OF HARIPUR</div>
+<div class="blink-small" style="color:#00ff62;">Project:Student Management & Algorithm System</div>
+<div class="info-box">
+<div class="info-item">NAME: <b>HASSAN NAWAZ</b></div>
+<div class="info-item">ROLL NO: <b>F23-1206</b></div>
+<div class="info-item">DEPARTMENT: <b>INFORMATION TECHNOLOGY</b></div>
+<div class="info-item">PROGRAM: <b>ARTIFICIAL INTELLIGENCE</b></div>
+<div class="info-item">SEMESTER: <b>5th</b></div>
+<div class="info-item">SECTION: <b>C</b></div>
+<div class="info-item">INSTRUCTOR: <b>SIR FAWAD ALI SHAH</b></div>
+</div>
+<button onclick="goToPage2()">NEXT →</button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+<h1>Algorithm Menu</h1>
+<div class="menu-grid">
+<button onclick="loadAlgorithm('stack')">Stack (LIFO)</button>
+<button onclick="loadAlgorithm('queue')">Queue (FIFO)</button>
+</div>
+<button onclick="goToPage1()">← BACK</button>
+</div>
+
+<!-- PAGE 3 STACK -->
+<div id="page3" class="page">
+<h1>Student Management - Stack (LIFO)</h1>
+<div id="studentContainer">
+<input type="text" id="studentName" placeholder="Student Name">
+<input type="text" id="studentRoll" placeholder="Roll No">
+<h4>Subjects</h4>
+<div id="subjectsContainer">
+<div class="subj-row">
+<input type="text" class="subjName" placeholder="Subject Name">
+<input type="number" class="subjCredit" placeholder="Credit" min="1">
+<input type="number" class="subjMarks" placeholder="Marks" min="0" max="100">
+</div>
+</div>
+<button onclick="addSubject('stack')">Add Subject</button>
+<div class="stack-info">Stack Size: <b id="stackSize">0</b> | Top Index: <b id="stackTop">-1</b></div>
+<button onclick="pushStudent()">Push Student</button>
+<button onclick="popStudent()">Pop Top Student</button>
+<button onclick="clearStack()">Clear All</button>
+<button onclick="downloadStackCSV()">Download CSV</button>
+<table id="studentTable">
+<thead><tr><th>S.No</th><th>Roll No</th><th>Name</th><th>GPA</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+<button onclick="goToPage2()">← BACK TO MENU</button>
+</div>
+
+<!-- PAGE 4 QUEUE -->
+<div id="page4" class="page">
+<h1>Student Management - Queue (FIFO)</h1>
+<div id="queueContainer">
+<input type="text" id="qName" placeholder="Student Name">
+<input type="text" id="qRoll" placeholder="Roll No">
+<h4>Subjects</h4>
+<div id="qSubjectsContainer">
+<div class="subj-row">
+<input type="text" class="qSubjName" placeholder="Subject Name">
+<input type="number" class="qSubjCredit" placeholder="Credit" min="1">
+<input type="number" class="qSubjMarks" placeholder="Marks" min="0" max="100">
+</div>
+</div>
+<button onclick="addSubject('queue')">Add Subject</button>
+<div class="stack-info">Queue Size: <b id="qSize">0</b> | Front: <b id="qFront">-1</b> | Rear: <b id="qRear">-1</b></div>
+<button onclick="enqueue()">Enqueue</button>
+<button onclick="dequeue()">Dequeue</button>
+<button onclick="clearQueue()">Clear All</button>
+<button onclick="downloadQueueCSV()">Download CSV</button>
+<table id="queueTable">
+<thead><tr><th>S.No</th><th>Roll No</th><th>Name</th><th>GPA</th></tr></thead>
+<tbody></tbody>
+</table>
+</div>
+<button onclick="goToPage2()">← BACK TO MENU</button>
+</div>
+
+<script>
+// PAGE SWITCH
+function goToPage1(){showPage('page1')}
+function goToPage2(){showPage('page2')}
+function goToPage3(){showPage('page3')}
+function goToPage4(){showPage('page4')}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function loadAlgorithm(algo){if(algo==='stack') goToPage3(); else if(algo==='queue') goToPage4();}
+
+// ADD SUBJECT
+function addSubject(type){
+let div=document.createElement('div'); div.className='subj-row';
+div.innerHTML=`<input type="text" class="${type==='stack'?'subjName':'qSubjName'}" placeholder="Subject Name">
+<input type="number" class="${type==='stack'?'subjCredit':'qSubjCredit'}" placeholder="Credit" min="1">
+<input type="number" class="${type==='stack'?'subjMarks':'qSubjMarks'}" placeholder="Marks" min="0" max="100">`;
+if(type==='stack') document.getElementById('subjectsContainer').appendChild(div);
+else document.getElementById('qSubjectsContainer').appendChild(div);
+}
+
+// GPA BASED ON UNIVERSITY OF HARIPUR
+function calculateGPA(subjects){
+    let totalCredits = 0;
+    let totalPoints = 0;
+
+    subjects.forEach(s => {
+        let marks = parseFloat(s.marks);
+        let credit = parseFloat(s.credit);
+        let point = 0;
+
+        if(marks >= 85 && marks <= 100) point = 4.00;   
+        else if(marks == 84) point = 3.90;
+        else if(marks == 83) point = 3.80;
+        else if(marks == 82) point = 3.70;
+        else if(marks == 81) point = 3.60;
+        else if(marks == 80) point = 3.50;
+        else if(marks == 79) point = 3.42;
+        else if(marks == 78) point = 3.33;
+        else if(marks == 77) point = 3.25;
+        else if(marks == 76) point = 3.17;
+        else if(marks == 75) point = 3.08;
+        else if(marks == 74) point = 3.00;        
+        else if(marks == 73) point = 2.92;        
+        else if(marks == 72) point = 2.83;           
+        else if(marks == 71) point = 2.75;
+        else if(marks == 70) point = 2.67; 
+        else if(marks == 69) point = 2.58;          
+        else if(marks == 68) point = 2.50;
+        else if(marks == 67) point = 2.42;
+        else if(marks == 66) point = 2.33;
+        else if(marks == 65) point = 2.25;      
+        else if(marks == 64) point = 2.17;
+        else if(marks == 63) point = 2.08;           
+        else if(marks == 62) point = 2.00;
+        else if(marks == 61) point = 1.92;
+        else if(marks == 60) point = 1.83;
+        else if(marks == 59) point = 1.75;
+        else if(marks == 58) point = 1.67;
+        else if(marks == 57) point = 1.58;
+        else if(marks == 56) point = 1.50;
+        else if(marks == 55) point = 1.42;      
+        else if(marks == 54) point = 1.33;
+        else if(marks == 53) point = 1.25;
+        else if(marks == 52) point = 1.17; 
+        else if(marks == 51) point = 1.08;
+        else if(marks == 50) point = 1.00;             
+        else point = 0.00;                               
+
+        totalCredits += credit;
+        totalPoints += point * credit;
+    });
+
+    return totalCredits ? (totalPoints / totalCredits).toFixed(2) : 0;
+}
+
+// STACK
+let stack=[];
+function pushStudent(){
+const name=document.getElementById("studentName").value;
+const roll=document.getElementById("studentRoll").value;
+if(!name||!roll){alert("Name & Roll required"); return;}
+const subjects=[]; 
+document.querySelectorAll('.subjName').forEach((s,i)=>{
+let n=s.value,c=parseFloat(document.querySelectorAll('.subjCredit')[i].value),
+m=parseFloat(document.querySelectorAll('.subjMarks')[i].value);
+if(n&&!isNaN(c)&&!isNaN(m)) subjects.push({name:n,credit:c,marks:m});
+});
+if(subjects.length===0){alert("Add at least one subject"); return;}
+stack.push({name,roll,subjects});
+renderStack();
+document.querySelectorAll("#studentContainer input").forEach(i=>i.value="");
+}
+function popStudent(){if(stack.length>0) stack.pop(); renderStack();}
+function clearStack(){stack=[]; renderStack();}
+function renderStack(){
+document.getElementById('stackSize').innerText=stack.length;
+document.getElementById('stackTop').innerText=stack.length?stack.length-1:-1;
+let tbody=document.querySelector("#studentTable tbody"); tbody.innerHTML="";
+stack.slice().reverse().forEach((s,i)=>{
+let gpa=calculateGPA(s.subjects);
+tbody.innerHTML+=`<tr><td>${i+1}</td><td>${s.roll}</td><td>${s.name}</td><td>${gpa}</td></tr>`;
+});
+}
+function downloadStackCSV(){
+if(stack.length==0){alert("Stack empty!"); return;}
+let csv="S.No,Roll,Name,GPA\n";
+stack.slice().reverse().forEach((s,i)=>{
+csv+=`${i+1},${s.roll},${s.name},${calculateGPA(s.subjects)}\n`;
+});
+const blob=new Blob([csv],{type:'text/csv'});
+const link=document.createElement('a'); link.href=URL.createObjectURL(blob); link.download="Stack_Students.csv"; link.click();
+}
+
+// QUEUE
+let queue=[],front=-1,rear=-1;
+function enqueue(){
+const name=document.getElementById("qName").value;
+const roll=document.getElementById("qRoll").value;
+if(!name||!roll){alert("Name & Roll required"); return;}
+const subjects=[]; 
+document.querySelectorAll('.qSubjName').forEach((s,i)=>{
+let n=s.value,c=parseFloat(document.querySelectorAll('.qSubjCredit')[i].value),
+m=parseFloat(document.querySelectorAll('.qSubjMarks')[i].value);
+if(n&&!isNaN(c)&&!isNaN(m)) subjects.push({name:n,credit:c,marks:m});
+});
+if(subjects.length===0){alert("Add at least one subject"); return;}
+queue.push({name,roll,subjects});
+if(front==-1){front=0; rear=0;} else rear++;
+renderQueue();
+document.querySelectorAll("#queueContainer input").forEach(i=>i.value="");
+}
+function dequeue(){if(front<=rear) front++; renderQueue();}
+function clearQueue(){queue=[]; front=rear=-1; renderQueue();}
+function renderQueue(){
+document.getElementById('qSize').innerText=queue.length;
+document.getElementById('qFront').innerText=(front>rear?-1:front);
+document.getElementById('qRear').innerText=(front>rear?-1:rear);
+let tbody=document.querySelector("#queueTable tbody"); tbody.innerHTML="";
+for(let i=front,s=1;i<=rear;i++){
+let gpa=calculateGPA(queue[i].subjects);
+tbody.innerHTML+=`<tr><td>${s++}</td><td>${queue[i].roll}</td><td>${queue[i].name}</td><td>${gpa}</td></tr>`;
+}
+}
+function downloadQueueCSV(){
+if(queue.length==0){alert("Queue empty!"); return;}
+let csv="S.No,Roll,Name,GPA\n";
+for(let i=front,s=1;i<=rear;i++){
+csv+=`${s++},${queue[i].roll},${queue[i].name},${calculateGPA(queue[i].subjects)}\n`;
+}
+const blob=new Blob([csv],{type:'text/csv'});
+const link=document.createElement('a'); link.href=URL.createObjectURL(blob); link.download="Queue_Students.csv"; link.click();
+}
+</script>
+</body>
+</html>
+
